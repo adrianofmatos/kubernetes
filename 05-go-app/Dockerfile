@@ -4,6 +4,8 @@ COPY main.go .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
 FROM alpine:3.14 as final
+#FROM centos:centos7.9.2009 as finalcentos7
+#FROM centos:centos8 as finalcentos8
 WORKDIR /app
 COPY --from=build /app/main .
 CMD ["./main"]
