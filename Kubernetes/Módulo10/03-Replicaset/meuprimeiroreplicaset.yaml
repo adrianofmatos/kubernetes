@@ -3,6 +3,7 @@ kind: ReplicaSet
 metadata:
   name: meuprimeiroreplicaset
 spec:
+  replicas: 10
   selector: 
     matchLabels:
       app: exemplo
@@ -14,4 +15,3 @@ spec:
       containers:
         - name: meucontainer
           image: kubedevio/nginx-color:blue
-      restartPolicy: Always
