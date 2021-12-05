@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: afmkubdeve.azurecr.io/pedelogo-catalogo:v1.0.0
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 443
+              name: https
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 32Mi
+              cpu: 150m
+            limits:
+              memory: 64Mi
+              cpu: 500m
+          envFrom:
+            - configMapRef:
+                name: api-configmap
+          env:
+            - name: Mongo_User
+              valueFrom:
+                secretKeyRef:
+                  key: MONGO_INITDB_ROOT_USERNAME
+                  name: mongodb-secret
+            - name: Mongo_Password
+              valueFrom:
+                secretKeyRef:
+                  key: MONGO_INITDB_ROOT_PASSWORD
+                  name: mongodb-secret
+      imagePullSecrets:
+        - name: acr-kubedev

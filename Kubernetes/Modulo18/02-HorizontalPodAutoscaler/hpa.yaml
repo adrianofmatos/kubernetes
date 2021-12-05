@@ -1,0 +1,11 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-deploy
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: resource-container
+  minReplicas: 1
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 50
